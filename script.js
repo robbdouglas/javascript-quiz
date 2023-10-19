@@ -137,7 +137,6 @@ const questions = [
   ),
 ];
 
-
 // Variablen für HTML Elemente
 // Funktionsweise: HTML Elemente werden in Variablen gespeichert, um sie später im Code wieder zu verwenden
 const quizContainer = document.getElementById("quiz-container");
@@ -158,18 +157,18 @@ function buildQuiz() {
   const question = questions[currentQuestionIndex];
   const questionElement = document.createElement("div");
   questionElement.innerHTML = `
-            <p><strong>Frage für ${question.euro} Euro:</strong> ${
-    question.text
-  }</p>
-            <ul>
-              ${question.choices
-                .map(
-                  (choice) =>
-                    `<li><input type="radio" name="q" value="${choice}">${choice}</li>`
-                )
-                .join("")}
-            </ul>
-          `;
+    <p><strong>Frage für ${question.euro} Euro:</strong> ${question.text}</p>
+    <ul style="list-style-type: none;"> <!-- Veränderte Zeile -->
+      ${question.choices
+        .map(
+          (choice, index) =>
+            `<li><input type="radio" name="q" value="${choice}"> <strong>${String.fromCharCode(
+              65 + index
+            )}</strong>: ${choice}</li>`
+        )
+        .join("")}
+    </ul>
+  `;
   quizContainer.innerHTML = "";
   quizContainer.appendChild(questionElement);
 
@@ -195,7 +194,7 @@ function submitAnswer() {
       showMessage(`Richtige Antwort! Du hast ${euro} Euro gewonnen.`);
     } else {
       showMessage(
-        `Falsche Antwort. Das Spiel ist beendet und du hast ${euro} Euro gewonnen.`
+        `Falsche Antwort. Die richtige Antwort wäre gewesen: ${question.correctAnswer}. Das Spiel ist beendet und du hast ${euro} Euro gewonnen.`
       );
       showNewGameButton();
     }
