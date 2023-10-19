@@ -181,9 +181,9 @@ function buildQuiz() {
 // Funktionen für den Submit Button
 // Funktionsweise: Die Funktionen prüfen, ob eine Antwort ausgewählt wurde und ob diese richtig ist. Wenn die Antwort richtig ist, wird die Gewinnsumme aktualisiert und der Next Button angezeigt. Wenn die Antwort falsch ist, wird die Gewinnsumme angezeigt und der New Game Button angezeigt.
 function submitAnswer() {
-  stopTimer();
   const selectedAnswer = document.querySelector('input[name="q"]:checked');
   if (selectedAnswer) {
+    stopTimer(); // Stopp den Timer nur, wenn eine Antwort ausgewählt wurde
     const answer = selectedAnswer.value;
     const question = questions[currentQuestionIndex];
     if (question.isCorrect(answer)) {
@@ -206,25 +206,25 @@ function submitAnswer() {
 }
 
 function showCorrectAnswer() {
-    const question = questions[currentQuestionIndex];
-    const choices = document.querySelectorAll('input[name="q"]');
-    choices.forEach((choice) => {
-      const label = choice.parentElement;
-      if (choice.value === question.correctAnswer) {
-        label.style.color = 'green'; // Richtige Antwort in grün anzeigen
-      } else if (choice.checked) {
-        label.style.color = 'red'; // Falsche Antwort in rot anzeigen
-      }
-    });
-  }
+  const question = questions[currentQuestionIndex];
+  const choices = document.querySelectorAll('input[name="q"]');
+  choices.forEach((choice) => {
+    const label = choice.parentElement;
+    if (choice.value === question.correctAnswer) {
+      label.style.color = "green"; // Richtige Antwort in grün anzeigen
+    } else if (choice.checked) {
+      label.style.color = "red"; // Falsche Antwort in rot anzeigen
+    }
+  });
+}
 
-  function resetAnswerStyles() {
-    const choices = document.querySelectorAll('input[name="q"]');
-    choices.forEach((choice) => {
-      const label = choice.parentElement;
-      label.style.color = ''; // Zurücksetzen auf Standardfarbe
-    });
-  }
+function resetAnswerStyles() {
+  const choices = document.querySelectorAll('input[name="q"]');
+  choices.forEach((choice) => {
+    const label = choice.parentElement;
+    label.style.color = ""; // Zurücksetzen auf Standardfarbe
+  });
+}
 
 // Funktionen für den Next Button
 // Funktionsweise: Die Funktionen erhöhen den Index der aktuellen Frage und prüfen, ob es noch weitere Fragen gibt. Wenn es noch weitere Fragen gibt, wird die nächste Frage aufgebaut und die Nachricht ausgeblendet. Wenn es keine weiteren Fragen gibt, wird die Nachricht angezeigt und der New Game Button angezeigt.
