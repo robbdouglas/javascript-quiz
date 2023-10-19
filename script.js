@@ -147,6 +147,7 @@ const messageElement = document.getElementById("message");
 const timerElement = document.getElementById("timer");
 const newGameButton = document.getElementById("newGameButton");
 
+// Variablen für Spiellogik
 let currentQuestionIndex = 0;
 let euro = 0;
 let timer;
@@ -158,18 +159,18 @@ function buildQuiz() {
   const questionElement = document.createElement("div");
   questionElement.innerHTML = `
     <p><strong>Frage für ${question.euro} Euro:</strong> ${question.text}</p>
-    <ul style="list-style-type: none;"> <!-- Veränderte Zeile -->
+    <ul style="list-style-type: none;"> 
       ${question.choices
         .map(
           (choice, index) =>
             `<li><input type="radio" name="q" value="${choice}"> <strong>${String.fromCharCode(
-              65 + index
-            )}</strong>: ${choice}</li>`
+              65 + index // 65 ist der ASCII Code für A, 66 für B, 67 für C, 68 für D
+            )}</strong>: ${choice}</li>` 
         )
         .join("")}
     </ul>
   `;
-  quizContainer.innerHTML = "";
+  quizContainer.innerHTML = ""; 
   quizContainer.appendChild(questionElement);
 
   submitButton.style.display = "block";
@@ -205,6 +206,8 @@ function submitAnswer() {
   }
 }
 
+// Funktionen für die Anzeige der richtigen Antwort
+// Funktionsweise: Die Funktionen prüfen, welche Antwort ausgewählt wurde und zeigen die richtige Antwort in grün und die falsche Antwort in rot an.
 function showCorrectAnswer() {
   const question = questions[currentQuestionIndex];
   const choices = document.querySelectorAll('input[name="q"]');
@@ -218,6 +221,8 @@ function showCorrectAnswer() {
   });
 }
 
+// Funktionen für die Zurücksetzung der Antwort Styles
+// Funktionsweise: Die Funktionen setzen die Antwort Styles zurück, indem sie die Farbe der Antwort Labels zurücksetzen.
 function resetAnswerStyles() {
   const choices = document.querySelectorAll('input[name="q"]');
   choices.forEach((choice) => {
@@ -250,6 +255,7 @@ function resetGame() {
   location.reload();
 }
 
+// Funktionen für die Nachrichten
 function showMessage(text) {
   messageElement.textContent = text;
 }
@@ -258,6 +264,7 @@ function hideMessage() {
   messageElement.textContent = "";
 }
 
+// Funktionen für den New Game Button
 function showNewGameButton() {
   newGameButton.style.display = "block";
 }
