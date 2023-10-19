@@ -223,6 +223,7 @@ function resetGame() {
   euro = 0;
   buildQuiz();
   hideNewGameButton();
+  location.reload();
 }
 
 function showMessage(text) {
