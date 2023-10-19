@@ -196,6 +196,7 @@ function submitAnswer() {
       showMessage(
         `Falsche Antwort. Die richtige Antwort wäre gewesen: ${question.correctAnswer}. Das Spiel ist beendet und du hast ${euro} Euro gewonnen.`
       );
+      showCorrectAnswer();
       showNewGameButton();
       submitButton.style.display = "none";
     }
@@ -203,6 +204,27 @@ function submitAnswer() {
     showMessage("Bitte wähle eine Antwort aus!");
   }
 }
+
+function showCorrectAnswer() {
+    const question = questions[currentQuestionIndex];
+    const choices = document.querySelectorAll('input[name="q"]');
+    choices.forEach((choice) => {
+      const label = choice.parentElement;
+      if (choice.value === question.correctAnswer) {
+        label.style.color = 'green'; // Richtige Antwort in grün anzeigen
+      } else if (choice.checked) {
+        label.style.color = 'red'; // Falsche Antwort in rot anzeigen
+      }
+    });
+  }
+
+  function resetAnswerStyles() {
+    const choices = document.querySelectorAll('input[name="q"]');
+    choices.forEach((choice) => {
+      const label = choice.parentElement;
+      label.style.color = ''; // Zurücksetzen auf Standardfarbe
+    });
+  }
 
 // Funktionen für den Next Button
 // Funktionsweise: Die Funktionen erhöhen den Index der aktuellen Frage und prüfen, ob es noch weitere Fragen gibt. Wenn es noch weitere Fragen gibt, wird die nächste Frage aufgebaut und die Nachricht ausgeblendet. Wenn es keine weiteren Fragen gibt, wird die Nachricht angezeigt und der New Game Button angezeigt.
@@ -224,6 +246,7 @@ function resetGame() {
   euro = 0;
   buildQuiz();
   hideNewGameButton();
+  resetAnswerStyles();
   location.reload();
 }
 
