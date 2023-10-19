@@ -6,6 +6,7 @@ body {
   height: 100vh;
   margin: 0;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  background: radial-gradient(#fff, #034484);
 }
 
 #quiz-container {

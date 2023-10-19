@@ -165,12 +165,12 @@ function buildQuiz() {
           (choice, index) =>
             `<li><input type="radio" name="q" value="${choice}"> <strong>${String.fromCharCode(
               65 + index // 65 ist der ASCII Code für A, 66 für B, 67 für C, 68 für D
-            )}</strong>: ${choice}</li>` 
+            )}</strong>: ${choice}</li>`
         )
         .join("")}
     </ul>
   `;
-  quizContainer.innerHTML = ""; 
+  quizContainer.innerHTML = "";
   quizContainer.appendChild(questionElement);
 
   submitButton.style.display = "block";
