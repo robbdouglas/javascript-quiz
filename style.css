@@ -28,4 +28,6 @@ body {
     display: none;
   }
 
-  
+#newGameButton {
+    margin-top: 20px;
+}

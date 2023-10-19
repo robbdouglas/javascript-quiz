@@ -1,3 +1,4 @@
+// Klasse für Fragen, Inhalt: Text (also die Frage), Antwortmöglichkeiten, richtige Antwort, Gewinnsumme
 class Question {
   constructor(text, choices, correctAnswer, euro) {
     this.text = text;
@@ -11,9 +12,10 @@ class Question {
   }
 }
 
+// Array mit Fragen, Inhalt: Fragen, Antwortmöglichkeiten, richtige Antwort, Gewinnsumme (basierend auf der Klasse Question)
 const questions = [
   new Question(
-    "Wie kann ich in JavaScript eine Variable definieren, die später nicht mehr verändert werden kann?",
+    "Wie kann man in JavaScript eine Variable definieren, die später nicht mehr verändert werden kann?",
     ["const", "let", "var", "variable"],
     "const",
     50
@@ -135,15 +137,23 @@ const questions = [
   ),
 ];
 
+
+// Variablen für HTML Elemente
+// Funktionsweise: HTML Elemente werden in Variablen gespeichert, um sie später im Code wieder zu verwenden
 const quizContainer = document.getElementById("quiz-container");
 const euroElement = document.getElementById("euro");
 const submitButton = document.getElementById("submitButton");
 const nextButton = document.getElementById("nextButton");
 const messageElement = document.getElementById("message");
+const timerElement = document.getElementById("timer");
+const newGameButton = document.getElementById("newGameButton");
 
 let currentQuestionIndex = 0;
 let euro = 0;
+let timer;
 
+// Funktion, die die Fragen aufbaut
+// Funktionsweise: Die Funktion baut die Fragen auf, indem sie die Fragen aus dem Array questions nimmt und in HTML Elemente umwandelt
 function buildQuiz() {
   const question = questions[currentQuestionIndex];
   const questionElement = document.createElement("div");
@@ -165,9 +175,14 @@ function buildQuiz() {
 
   submitButton.style.display = "block";
   nextButton.style.display = "none";
+  newGameButton.style.display = "none";
+  startTimer();
 }
 
+// Funktionen für den Submit Button
+// Funktionsweise: Die Funktionen prüfen, ob eine Antwort ausgewählt wurde und ob diese richtig ist. Wenn die Antwort richtig ist, wird die Gewinnsumme aktualisiert und der Next Button angezeigt. Wenn die Antwort falsch ist, wird die Gewinnsumme angezeigt und der New Game Button angezeigt.
 function submitAnswer() {
+  stopTimer();
   const selectedAnswer = document.querySelector('input[name="q"]:checked');
   if (selectedAnswer) {
     const answer = selectedAnswer.value;
@@ -182,13 +197,15 @@ function submitAnswer() {
       showMessage(
         `Falsche Antwort. Das Spiel ist beendet und du hast ${euro} Euro gewonnen.`
       );
-      resetGame();
+      showNewGameButton();
     }
   } else {
     showMessage("Bitte wähle eine Antwort aus!");
   }
 }
 
+// Funktionen für den Next Button
+// Funktionsweise: Die Funktionen erhöhen den Index der aktuellen Frage und prüfen, ob es noch weitere Fragen gibt. Wenn es noch weitere Fragen gibt, wird die nächste Frage aufgebaut und die Nachricht ausgeblendet. Wenn es keine weiteren Fragen gibt, wird die Nachricht angezeigt und der New Game Button angezeigt.
 function nextQuestion() {
   currentQuestionIndex++;
   if (currentQuestionIndex < questions.length) {
@@ -196,14 +213,17 @@ function nextQuestion() {
     hideMessage();
   } else {
     showMessage(`Herzlichen Glückwunsch! Du hast ${euro} Euro gewonnen!`);
-    resetGame();
+    showNewGameButton();
   }
 }
 
+// Funktionen für den New Game Button
+// Funktionsweise: Die Funktionen setzen den Index der aktuellen Frage und die Gewinnsumme zurück, bauen die Fragen neu auf und blenden den New Game Button aus.
 function resetGame() {
   currentQuestionIndex = 0;
   euro = 0;
   buildQuiz();
+  hideNewGameButton();
 }
 
 function showMessage(text) {
@@ -214,4 +234,33 @@ function hideMessage() {
   messageElement.textContent = "";
 }
 
+function showNewGameButton() {
+  newGameButton.style.display = "block";
+}
+
+function hideNewGameButton() {
+  newGameButton.style.display = "none";
+}
+
+// Funktionen für den Timer
+// Funktionsweise: Die Funktionen starten und stoppen den Timer, der die Zeit für die Beantwortung der Fragen misst.
+function startTimer() {
+  let timeLeft = 30;
+  timer = setInterval(() => {
+    timerElement.textContent = `Timer: ${timeLeft}s`;
+    if (timeLeft <= 0) {
+      showMessage("Die Zeit ist abgelaufen, du hast verloren!");
+      stopTimer();
+      showNewGameButton();
+    }
+    timeLeft--;
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timer);
+  timerElement.textContent = "";
+}
+
+// Beim Laden der Seite wird die Funktion buildQuiz ausgeführt, um die Fragen aufzubauen
 buildQuiz();
