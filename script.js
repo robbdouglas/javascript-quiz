@@ -197,6 +197,7 @@ function submitAnswer() {
         `Falsche Antwort. Die richtige Antwort wäre gewesen: ${question.correctAnswer}. Das Spiel ist beendet und du hast ${euro} Euro gewonnen.`
       );
       showNewGameButton();
+      submitButton.style.display = "none";
     }
   } else {
     showMessage("Bitte wähle eine Antwort aus!");
@@ -252,6 +253,7 @@ function startTimer() {
       showMessage("Die Zeit ist abgelaufen, du hast verloren!");
       stopTimer();
       showNewGameButton();
+      submitButton.style.display = "none";
     }
     timeLeft--;
   }, 1000);
